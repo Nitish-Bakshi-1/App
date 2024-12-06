@@ -1,16 +1,12 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
-console.log();
+dotenv.config();
 
 export const connectDb = () => {
   mongoose
-    .connect(
-      "mongodb+srv://admin:2k9SlYj4HLGfSltI@cluster0.j7jusce.mongodb.net/",
-      {
-        dbName: "App",
-      }
-    )
+    .connect(process.env.MONGO_URL, {
+      dbName: "App",
+    })
     .then(() => console.log(`Database Connected`))
     .catch((e) => console.log(e));
 };

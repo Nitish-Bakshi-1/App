@@ -21,6 +21,6 @@ app.post("/signup", signUp);
 app.post("/signin", signIn);
 app.get("/signout", signOut);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   console.log("server started");
 });

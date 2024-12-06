@@ -22,6 +22,7 @@ export const signUp = async (req, res) => {
     console.log(e);
   }
 };
+
 export const signIn = async (req, res) => {
   try {
     const { password, email } = req.body;
@@ -30,7 +31,7 @@ export const signIn = async (req, res) => {
       email,
     });
     if (currentUser) {
-      const token = jwt.sign({ id: currentUser._id }, "displined");
+      const token = jwt.sign({ id: currentUser._id }, process.env.JWT_SECRET);
       res
         .cookie("token", token, {
           maxAge: 10 * 60 * 1000,
@@ -44,6 +45,7 @@ export const signIn = async (req, res) => {
     console.log(e);
   }
 };
+
 export const signOut = async (req, res) => {
   res
     .cookie("token", "", {
