@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-const objectId = mongoose.Types.ObjectId();
 
-const schema = mongoose.schema({
+const schema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -11,7 +10,9 @@ const schema = mongoose.schema({
     required: true,
   },
   createdBy: {
-    userId: objectId,
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+    required: "true",
   },
   createdAt: {
     type: Date,
@@ -19,5 +20,5 @@ const schema = mongoose.schema({
   },
 });
 
-const Posts = mongoose.model("Posts", schema);
+const Posts = new mongoose.model("Posts", schema);
 export default Posts;

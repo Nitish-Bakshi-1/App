@@ -3,24 +3,24 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { connectDb } from "./data/db.js";
-import { signUp } from "./controllers/user.js";
-import { signIn } from "./controllers/user.js";
-import { signOut } from "./controllers/user.js";
-
+import userRouter from "./routes/user.js";
+import postRouter from "./routes/posts.js";
 const app = express();
 
+// mongodb connection
 connectDb();
 
+// configuring dotenv
 dotenv.config();
 
 // using middlewares
 app.use(express.json());
 app.use(cookieParser());
+// using routers
+app.use("/user", userRouter);
+app.use("/post", postRouter);
 
-app.post("/signup", signUp);
-app.post("/signin", signIn);
-app.get("/signout", signOut);
-
+// universal endpoints
 app.listen(process.env.PORT, () => {
   console.log("server started");
 });

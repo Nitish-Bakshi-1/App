@@ -26,21 +26,27 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
   try {
     const { password, email } = req.body;
-    const currentUser = await User.findOne({
-      password,
+    const decoded = await User.findOne({
       email,
     });
-    if (currentUser) {
-      const token = jwt.sign({ id: currentUser._id }, process.env.JWT_SECRET);
+
+    if (!decoded) {
       res
-        .cookie("token", token, {
-          maxAge: 10 * 60 * 1000,
-          httpOnly: true,
-        })
         .json({
-          message: "signed in ",
-        });
+          message: "user not found",
+        })
+        .status(404);
     }
+
+    const token = jwt.sign({ id: decoded._id }, process.env.JWT_SECRET);
+    res
+      .cookie("token", token, {
+        maxAge: 10 * 60 * 1000,
+        httpOnly: true,
+      })
+      .json({
+        message: "signed in ",
+      });
   } catch (e) {
     console.log(e);
   }
