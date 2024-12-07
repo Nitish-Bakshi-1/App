@@ -5,10 +5,12 @@ export const allPosts = async (req, res) => {
   res.json({ posts });
 };
 export const createPost = async (req, res) => {
-  const { title, description, userId } = req.body;
-  await Posts.create({ title, description, user: req.user._id });
+  const userId = req.user._id;
+  const { title, description } = req.body;
+
+  const post = await Posts.create({ title, description, userId });
   res.json({
-    message: "task added",
+    message: "post added",
     success: true,
   });
 };
